@@ -11,18 +11,19 @@ app = FlaskAPI(__name__)
 # TODO: Submit objects to the database
 
 
-@app.route('/api/<string:payload>', methods=['GET', 'POST'])
-def telemetry(payload):
+@app.route('/api/<string:key>', methods=['GET', 'POST'])
+def telemetry(key):
     '''
     GETS or POSTS telemetry    
     '''
     if request.method == 'POST':
-        print(request.json.get('data', ''))
+        print('Data:', request.json.get('data', ''))
+        print('JSON:', request.get_json())
         # print(request.get_json()['data'])
         return 'Successful POST', status.HTTP_201_CREATED
 
     # request.method == 'GET'
-    return '<h1>GET not implemented yet.</h1><hr><p>Here is what you sent:</p><hr><ul>{}</ul>'.format(payload)
+    return '<h1>GET not implemented yet.</h1><hr><p>Here is what you sent:</p><hr><ul>{}</ul>'.format(key)
 
 
 if __name__ == '__main__':
