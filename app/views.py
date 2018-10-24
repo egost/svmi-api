@@ -1,8 +1,14 @@
+import os
+
 from flask import request, url_for
 from flask_api import FlaskAPI, status, exceptions
 
 
 app = FlaskAPI(__name__)
+app.config['SERVER_NAME'] = str(os.environ.get('SERVER_NAME', 'localhost:5000'))
+app.config['DEBUG'] = bool(os.environ.get('DEBUG', False))
+app.config['TESTING'] = bool(os.environ.get('TESTING', False))
+
 # TODO: Connect DB
 # TODO: Schema objects
 # TODO: Assemble objects
