@@ -22,20 +22,20 @@ from app.models import Address, Login, School, Contact, Classroom, Player, Game,
 ############
 
 app = FlaskAPI(__name__)
+DB_NAME = str(os.environ.get('DB_NAME'))
+DB_USER = str(os.environ.get('DB_USER'))
+DB_PASSWORD = str(os.environ.get('DB_PASSWORD'))
+DB_URL = str(os.environ.get('DB_URL'))
+DB_STRING = 'mysql://{}:{}@{}/{}'.format(DB_USER, DB_PASSWORD, DB_URL, DB_NAME)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = DB_STRING
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # adds significant overhead
+
+db.app = app
+db.init_app(app)
 
 def main():
 
-    DB_NAME = str(os.environ.get('DB_NAME'))
-    DB_USER = str(os.environ.get('DB_USER'))
-    DB_PASSWORD = str(os.environ.get('DB_PASSWORD'))
-    DB_URL = str(os.environ.get('DB_URL'))
-    DB_STRING = 'mysql://{}:{}@{}/{}'.format(DB_USER, DB_PASSWORD, DB_URL, DB_NAME)
-
-    app.config['SQLALCHEMY_DATABASE_URI'] = DB_STRING
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # adds significant overhead
-
-    db.app = app
-    db.init_app(app)
     # db.drop_all()
     db.create_all()
 
