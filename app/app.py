@@ -13,9 +13,9 @@ from flask_sqlalchemy import SQLAlchemy
 # Models #
 ##########
 
-from factory import make_player, make_school
-from extensions import db
-from models import Address, Login, School, Contact, Classroom, Player, Game, Session, Round, System
+from app.factory import make_player, make_school
+from app.extensions import db
+from app.models import Address, Login, School, Contact, Classroom, Player, Game, Session, Round, System
 
 ############
 # Start Up #
@@ -181,8 +181,8 @@ def players():
         player = make_player(n_sessions=10)
         player.contact.school = school
 
-	sessions = [ make_session(player=player) for i in range(0,n_sessions) ]
-	rounds = [ make_round(session=session) for i in range(0,n_rounds) ]
+        sessions = [ make_session(player=player) for i in range(0,n_sessions) ]
+        rounds = [ make_round(session=session) for i in range(0,n_rounds) ]
         db.session.add(player)
         db.session.commit()
 
