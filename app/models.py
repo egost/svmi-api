@@ -94,6 +94,8 @@ class Player(db.Model):
 
     name = db.Column(db.String(64))
     grade = db.Column(db.Integer)
+    # TODO: Remove highscore - Hot fix
+    highscore = db.Column(db.Integer)
     letter_grade = db.Column(db.String(2))
     contact_id = db.Column(db.Integer, db.ForeignKey('contact.id'))
     contact = db.relationship('Contact', foreign_keys='Player.contact_id')
@@ -111,11 +113,16 @@ class Player(db.Model):
         return '< Player: {} is in grade {} >'.format(self.name, self.grade)
 
     @property
-    def serialize(self):
+    def json(self):
         """Return object data in easily serializeable format"""
         return {
-            'id'         : self.id,
-            'many2many'  : self.serialize_many2many
+            'id' : int(self.id),
+            'name' : str(self.name),
+            'grade' : str(self.grade),
+            'highscore' : int(self.highscore),
+            'letter_grade' : str(self.letter_grade),
+            'contact_id' : int(self.contact_id),
+            # 'classroom_id' : int(self.classroom_id),
             }
 
     

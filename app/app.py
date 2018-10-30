@@ -13,7 +13,7 @@ from flask_sqlalchemy import SQLAlchemy
 # Models #
 ##########
 
-from app.factory import make_player, make_school
+from app.factory import make_player, make_school, make_session, make_round
 from app.extensions import db
 from app.models import Address, Login, School, Contact, Classroom, Player, Game, Session, Round, System
 
@@ -138,10 +138,10 @@ def school(school_name):
     '''
     school = School.query.filter_by(name=school_name).first()
     contacts = Contact.query.filter_by(school_id=school.id).all()
-    players = [ Player.query.filter_by(contact=contact).first() for contact in contacts ]
+    players = [ Player.query.filter_by(contact=contact).first().json for contact in contacts ]
 
     # request.method == 'GET'
-    return jsonify({'players':players})
+    return jsonify(json_list = players)
 
 
 @app.route('/api/school/<string:school_name>/highscores', methods=['GET'])
@@ -181,8 +181,8 @@ def players():
         player = make_player(n_sessions=10)
         player.contact.school = school
 
-        sessions = [ make_session(player=player) for i in range(0,n_sessions) ]
-        rounds = [ make_round(session=session) for i in range(0,n_rounds) ]
+        sessions = [ make_session(player=player) for i in range(0,10) ]
+        rounds = [ make_round(session=session) for i in range(0,3) ]
         db.session.add(player)
         db.session.commit()
 

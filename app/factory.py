@@ -26,6 +26,8 @@ def make_player(n_sessions=1):
     player = Player(
         name=fake.user_name(),
         grade=fake.random_int(2,10),
+        # TODO: Remove highscore - it is just a hot fix
+        highscore=fake.random_int(0, 4000),
         letter_grade=fake.random_element(elements=('A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D')),
         contact=make_contact(),
         # TODO: backpopulate with Classroom
@@ -43,8 +45,7 @@ def make_session(player=None, n_rounds=4):
         game_id='Medieval Math',
         game_version='v1.0',
         # TODO: Verify that time is logical
-        lenght=fake.time_object(end_datetime=datetime.datetime(2018, 10, 8, 2, 0, 0)),
-        length=fake.time_object(end_datetime=None),
+        length=fake.time_object(end_datetime=datetime.datetime(2018, 10, 8, 2, 0, 0)),
         player=player,
         system=make_system(),
         stop_time=fake.past_date(start_date="-120d", tzinfo=None)
