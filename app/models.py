@@ -1,6 +1,6 @@
 from sqlalchemy.orm import lazyload, raiseload, relationship
 
-from extensions import db
+from app.extensions import db
 
 def time_created():
     return db.Column(db.DateTime(timezone=True),
