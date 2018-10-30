@@ -2,7 +2,7 @@ import datetime
 
 from faker import Faker
 
-from models import Address, School, Login, Player, Contact, Classroom, Game, Session, Round, System
+from app.models import Address, School, Login, Player, Contact, Classroom, Game, Session, Round, System
                 
 fake = Faker()
 fake.seed_instance(4321)
