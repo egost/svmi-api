@@ -10,7 +10,8 @@ def time_created():
 def time_updated():
     return db.Column(db.DateTime(timezone=True),
             server_default=db.func.now(),
-            onupdate=db.text('on update CURRENT_TIMESTAMP()')
+            #onupdate=db.text('on update CURRENT_TIMESTAMP()')
+            onupdate=db.func.now()
             )
 
 
@@ -97,6 +98,7 @@ class Player(db.Model):
     # TODO: Remove highscore - Hot fix
     highscore = db.Column(db.Integer)
     letter_grade = db.Column(db.String(2))
+    levels_unlocked = db.Column(db.Integer)
     contact_id = db.Column(db.Integer, db.ForeignKey('contact.id'))
     contact = db.relationship('Contact', foreign_keys='Player.contact_id')
     classroom_id = db.Column(db.Integer, db.ForeignKey('classroom.id'))
@@ -133,7 +135,8 @@ class Round(db.Model):
     session = db.relationship('Session')
     level_name = db.Column(db.String(64))
     score = db.Column(db.Integer)
-    time = db.Column(db.Time)
+    start_time = db.Column(db.DateTime)
+    stop_time = db.Column(db.DateTime)
     won = db.Column(db.Boolean)
     waves_completed = db.Column(db.Integer)
     difficulty = db.Column(db.String(64))
@@ -168,12 +171,12 @@ class Session(db.Model):
     game_id = db.Column(db.String(64), db.ForeignKey('game.name'))
     game = db.relationship('Game')
     game_version = db.Column(db.Integer)
-    length = db.Column(db.DateTime)
+    start_time = db.Column(db.DateTime)
+    stop_time = db.Column(db.DateTime)
     player_id = db.Column(db.Integer, db.ForeignKey('player.id'))
     player = db.relationship('Player')
     system_id = db.Column(db.Integer, db.ForeignKey('system.id'))
     system = db.relationship('System')
-    stop_time = db.Column(db.DateTime)
 
     time_created = time_created()
     time_updated = time_updated()

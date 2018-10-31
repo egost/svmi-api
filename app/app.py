@@ -1,4 +1,5 @@
 import os
+import datetime
 
 from flask_api import FlaskAPI
 from flask_api import status, exceptions
@@ -29,15 +30,13 @@ DB_URL = str(os.environ.get('DB_URL'))
 DB_STRING = 'mysql://{}:{}@{}/{}'.format(DB_USER, DB_PASSWORD, DB_URL, DB_NAME)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_STRING
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # adds significant overhead
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # adds significant overhead if True
 
 db.app = app
 db.init_app(app)
 
 def main():
-
-    # db.drop_all()
-    db.create_all()
+    # db.create_all()
 
     debug = str(os.environ.get('DEBUG', True))
     port = int(os.environ.get('PORT', 5000))
@@ -49,71 +48,150 @@ def main():
 # Routes #
 ##########
 
-def update_system_info(data):
+def make_system(data):
     # TODO: Handle if no system
     # if player.system is None:
     #     print('Player has no preexisting system information.')
 
-    system = System()
-
-    system.deviceId = data['deviceUniqueIdentifier']
-    system.deviceModel = data['deviceModel']
-    system.operatingSystem = data['operatingSystem']
-    system.graphicsDeviceVendorId = data['graphicsDeviceVendorId']
-    system.graphicsDeviceId = data['graphicsDeviceId']
-    system.graphicsDeviceVersion = data['graphicsDeviceVersion']
-    system.graphicsMultiThreaded = data['graphicsMultiThreaded']
-    system.graphicsShaderLevel = data['graphicsShaderLevel']
-    system.maxTextureSize = data['maxTextureSize']
-    system.systemMemorySize = data['systemMemorySize']
-    system.graphicsMemorySize = data['graphicsMemorySize']
-    system.graphicsDeviceVendor = data['graphicsDeviceVendor']
-    system.processorCount = data['processorCount']
-    system.processorType = data['processorType']
-    system.supportedRenderTargetCount = data['supportedRenderTargetCount']
-    system.supports2DArrayTextures = data['supports2DArrayTextures']
-    system.supports3DRenderTextures = data['supports3DRenderTextures']
-    system.supports3DTextures = data['supports3DTextures']
-    system.supportsComputeShaders = data['supportsComputeShaders']
-    system.supportsInstancing = data['supportsInstancing']
+    system = System(
+        deviceId = data['deviceUniqueIdentifier'],
+        deviceModel = data['deviceModel'],
+        operatingSystem = data['operatingSystem'],
+        graphicsDeviceVendorId = data['graphicsDeviceVendorId'],
+        graphicsDeviceId = data['graphicsDeviceId'],
+        graphicsDeviceVersion = data['graphicsDeviceVersion'],
+        graphicsMultiThreaded = data['graphicsMultiThreaded'],
+        graphicsShaderLevel = data['graphicsShaderLevel'],
+        maxTextureSize = data['maxTextureSize'],
+        systemMemorySize = data['systemMemorySize'],
+        graphicsMemorySize = data['graphicsMemorySize'],
+        graphicsDeviceVendor = data['graphicsDeviceVendor'],
+        processorCount = data['processorCount'],
+        processorType = data['processorType'],
+        supportedRenderTargetCount = data['supportedRenderTargetCount'],
+        supports2DArrayTextures = data['supports2DArrayTextures'],
+        supports3DRenderTextures = data['supports3DRenderTextures'],
+        supports3DTextures = data['supports3DTextures'],
+        supportsComputeShaders = data['supportsComputeShaders'],
+        supportsInstancing = data['supportsInstancing']
+    )
 
     return system
 
 
-def assemble(json):
+def existing_player(data):
+    # TODO: Get all player data
+    # skillLevel
+    player = Player.query.filter_by(name=data['playerName']).first()
+    if player is None:
+        player = Player(
+            name=data['playerName'],
+        )
+    player.levels_unlocked=int(data['levelsUnlocked'])
+    return player
+
+def existing_system(data):
+    system = System.query.filter_by(deviceId=data['deviceUniqueIdentifier']).first()
+    if system is None:
+        system = System(
+            deviceId = data['deviceUniqueIdentifier'],
+            deviceModel = data['deviceModel'],
+            operatingSystem = data['operatingSystem'],
+            graphicsDeviceVendorId = data['graphicsDeviceVendorId'],
+            graphicsDeviceId = data['graphicsDeviceId'],
+            graphicsDeviceVersion = data['graphicsDeviceVersion'],
+            graphicsMultiThreaded = data['graphicsMultiThreaded'],
+            graphicsShaderLevel = data['graphicsShaderLevel'],
+            maxTextureSize = data['maxTextureSize'],
+            systemMemorySize = data['systemMemorySize'],
+            graphicsMemorySize = data['graphicsMemorySize'],
+            graphicsDeviceVendor = data['graphicsDeviceVendor'],
+            processorCount = data['processorCount'],
+            processorType = data['processorType'],
+            supportedRenderTargetCount = data['supportedRenderTargetCount'],
+            supports2DArrayTextures = data['supports2DArrayTextures'],
+            supports3DRenderTextures = data['supports3DRenderTextures'],
+            supports3DTextures = data['supports3DTextures'],
+            supportsComputeShaders = data['supportsComputeShaders'],
+            supportsInstancing = data['supportsInstancing']
+        )
+    return system
+
+def assemble_session(data):
+    """ Assembles session object """
+
+    import pprint
+    pprint.pprint(data)
+
     # Schema objects
-    data = {k:v for k,v in json.items()}
+    player = existing_player(data)
+    system = existing_system(data)
 
-    # import pprint
-    # pprint.pprint(data)
+    stop_time = datetime.datetime.now()
+    seconds = round(float(data['stopTime']))
+    start_time = stop_time - datetime.timedelta(seconds)
 
-    # player = Player.query.filter_by(name='tom').first()
-    # db.session.add(player)
-    # db.session.commit()
-    # playerName,
-    # skillLevel,
-    # stopTime,
-    # levelsUnlocked,
-    # system = update_system_info(data)
-    # db.session.add(system)
-    # db.session.commit()
+    session = Session(
+        #length=datetime.time(datetime.datetime.fromtimestamp(round(float(data['stopTime'])))),
+        start_time=start_time,
+        stop_time=stop_time,
+        player=player,
+        system=system
+    )
 
+    db.session.add(session)
+    db.session.commit()
+
+def existing_session(data):
+    # TODO: check/create existing session
+    pass
+
+def assemble_round(data):
+    """ Assembles round object """
+
+    import pprint
+    pprint.pprint(data)
+
+    # Schema objects
+    # session = existing_session(data)
+
+    stop_time = datetime.datetime.now()
+    seconds = round(float(data['stopTime']))
+    start_time = stop_time - datetime.timedelta(seconds)
+
+    _round = Round(
+        start_time=start_time,
+        stop_time=stop_time,
+        score=data['score']
+    )
+
+    db.session.add(_round)
+    db.session.commit()
 
 # Game Telemetry
-@app.route('/api/<string:key>', methods=['GET', 'POST'])
-def telemetry(key):
+@app.route('/api/session', methods=['POST'])
+def session_telemetry():
     '''
     GETS or POSTS telemetry    
     '''
     if request.method == 'POST':
         # print('Data:', request.json.get('data', ''))
         # print('JSON:', request.get_json())
-        assemble(request.get_json())
+        assemble_session(request.get_json())
         # print(request.get_json()['data'])
         return 'Successful POST', status.HTTP_201_CREATED
 
-    # request.method == 'GET'
-    return '<h1>Telemetry GET In Development</h1><hr><p>Game Log</p><hr><ul>{}</ul>'.format(key)
+@app.route('/api/round', methods=['POST'])
+def round_telemetry():
+    '''
+    GETS or POSTS telemetry    
+    '''
+    if request.method == 'POST':
+        # print('Data:', request.json.get('data', ''))
+        # print('JSON:', request.get_json())
+        assemble_round(request.get_json())
+        # print(request.get_json()['data'])
+        return 'Successful POST', status.HTTP_201_CREATED
 
 
 # School
