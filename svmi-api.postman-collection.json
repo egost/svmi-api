@@ -1,0 +1,155 @@
+{
+	"variables": [],
+	"info": {
+		"name": "svmi-api",
+		"_postman_id": "ab831dca-e4e7-e669-65cf-21226499e7fc",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "dev-tools",
+			"description": "",
+			"item": [
+				{
+					"name": "reset-database",
+					"request": {
+						"url": "{{API_URL}}/api/empty",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "create-address",
+			"request": {
+				"url": "{{API_URL}}/api/address",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"street1\":\"754 Habanero Ave.\",\n\t\"street2\":\"\",\n\t\"city\":\"\",\n\t\"state\":\"\",\n\t\"zipcode\":\"\",\n\t\"county\":\"\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "load-all-addresses",
+			"request": {
+				"url": "{{API_URL}}/api/address",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create-industry",
+			"request": {
+				"url": "{{API_URL}}/api/industry",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"naics_code\":\"777777\",\n\t\"description\":\"This is a test industry created directly with the API.\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "load-all-industries",
+			"request": {
+				"url": "{{API_URL}}/api/industry",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create-school",
+			"request": {
+				"url": "{{API_URL}}/api/school",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"Kale High School\",\n\t\"address\":{\n\t\t\"street1\":\"564 Almond Street\",\n\t\t\"street2\":\"\",\n\t\t\"city\":\"\",\n\t\t\"state\":\"\",\n\t\t\"zipcode\":\"\",\n\t\t\"county\":\"Radish\"\n\t},\n\t\"website\":\"www.kalehigh.com\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "load-all-schools",
+			"request": {
+				"url": "{{API_URL}}/api/school",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create-company",
+			"request": {
+				"url": "{{API_URL}}/api/company",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"Onion Inc\",\n\t\"address\":{\n\t\t\"street1\":\"5542 Chipotle St.\",\n\t\t\"street2\":\"\",\n\t\t\"city\":\"Orange Hills\",\n\t\t\"state\":\"\",\n\t\t\"zipcode\":\"\",\n\t\t\"county\":\"\"\n\t},\n\t\"industry\":{\n\t\t\"naics_code\":\"999999\",\n\t\t\"description\":\"Industry created inside a company.\"\n\t},\n\t\"website\":\"http://onioninc.com\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "load-all-companies",
+			"request": {
+				"url": "{{API_URL}}/api/company",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
