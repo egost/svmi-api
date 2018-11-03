@@ -9,8 +9,6 @@ from flask import request, url_for, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 
 # TODO: Handle nested object POST (Address or Industry)
-# TODO: Add single object GET by id
-# TODO: Add single object DELETE by id
 # TODO: Handle existing object POST Address, School and Company (Industry is taken care of)
 
 ##########
@@ -57,7 +55,7 @@ def main():
 @app.route('/api/address', methods=['GET', 'POST'])
 def addresses():
     '''
-    GET: Lists all addresses.
+    GET: Returns all addresses.
     POST: Creates an address.
     '''
 
@@ -82,12 +80,44 @@ def addresses():
     return jsonify({'addresses': unpack_json(addresses)}), status.HTTP_200_OK
 
 
+@app.route('/api/address/<int:id>', methods=['GET', 'PUT', 'DELETE'])
+def address(id):
+    '''
+    GET: Returns address.
+    PUT: Updates address.
+    DELETE: Deletes address.
+    '''
+
+    address = Address.query.get_or_404(id)
+
+    if request.method == 'PUT':
+        json = request.get_json()
+
+        address.street1=json.get('street1', ''),
+        address.street2=json.get('street2', ''),
+        address.city=json.get('city', ''),
+        address.state=json.get('state', ''),
+        address.zipcode=json.get('zipcode', ''),
+        address.county=json.get('county', ''),
+
+        db.session.add(address)
+        db.session.commit()
+
+        return jsonify(address.json), status.HTTP_200_OK
+    elif request.method == 'DELETE':
+        db.session.delete(address)
+        db.session.commit()
+        return '', status.HTTP_204_NO_CONTENT
+
+    return jsonify(address.json), status.HTTP_200_OK
+
+
 
 # Industry
 @app.route('/api/industry', methods=['GET', 'POST'])
 def industries():
     '''
-    GET: Lists all industries.
+    GET: Returns all industries.
     POST: Creates an industry.
     '''
 
@@ -111,11 +141,38 @@ def industries():
     return jsonify({'industries': unpack_json(industries)}), status.HTTP_200_OK
 
 
+@app.route('/api/industry/<int:id>', methods=['GET', 'PUT', 'DELETE'])
+def industry(id):
+    '''
+    GET: Returns industry.
+    PUT: Updates industry.
+    DELETE: Deletes industry.
+    '''
+
+    industry = Industry.query.get_or_404(id)
+
+    if request.method == 'PUT':
+        json = request.get_json()
+
+        industry.description=json.get('description', ''),
+
+        db.session.add(industry)
+        db.session.commit()
+
+        return jsonify(industry.json), status.HTTP_200_OK
+    elif request.method == 'DELETE':
+        db.session.delete(industry)
+        db.session.commit()
+        return '', status.HTTP_204_NO_CONTENT
+
+    return jsonify(industry.json), status.HTTP_200_OK
+
+
 # Company
 @app.route('/api/company', methods=['GET', 'POST'])
 def companies():
     '''
-    GET: Lists all companies.
+    GET: Returns all companies.
     POST: Creates an company.
     '''
 
@@ -124,7 +181,7 @@ def companies():
 
         # with app.test_request_context():
         #    address = url_for('addresses', json=json['address'])
-           # industry = url_for('industries', json=json['industry'])
+        #    industry = url_for('industries', json=json['industry'])
 
         company = Company(
             name=json.get('name', ''),
@@ -138,14 +195,45 @@ def companies():
 
         return jsonify(company.json), status.HTTP_201_CREATED
 
-    companies = Industry.query.all()
+    companies = Company.query.all()
     return jsonify({'companies': unpack_json(companies)}), status.HTTP_200_OK
+
+
+@app.route('/api/company/<int:id>', methods=['GET', 'PUT', 'DELETE'])
+def company(id):
+    '''
+    GET: Returns company.
+    PUT: Updates company.
+    DELETE: Deletes company.
+    '''
+
+    company = Company.query.get_or_404(id)
+
+    if request.method == 'PUT':
+        json = request.get_json()
+
+        company.name=json.get('name', ''),
+        # company.address=
+        # company.industry=
+        company.website=json.get('website', ''),
+
+        db.session.add(company)
+        db.session.commit()
+
+        return jsonify(company.json), status.HTTP_200_OK
+    elif request.method == 'DELETE':
+        db.session.delete(company)
+        db.session.commit()
+        return '', status.HTTP_204_NO_CONTENT
+
+    return jsonify(company.json), status.HTTP_200_OK
+
 
 # School
 @app.route('/api/school', methods=['GET', 'POST'])
 def schools():
     '''
-    GET: Lists all schools.
+    GET: Returns all schools.
     POST: Creates an school.
     '''
 
@@ -167,6 +255,35 @@ def schools():
         return jsonify(school.json), status.HTTP_201_CREATED
     schools = School.query.all()
     return jsonify({'schools': unpack_json(schools)}), status.HTTP_200_OK
+
+
+@app.route('/api/school/<int:id>', methods=['GET', 'PUT', 'DELETE'])
+def school(id):
+    '''
+    GET: Returns school.
+    PUT: Updates school.
+    DELETE: Deletes school.
+    '''
+
+    school = School.query.get_or_404(id)
+
+    if request.method == 'PUT':
+        json = request.get_json()
+
+        school.name=json.get('name', ''),
+        # school.address=
+        school.website=json.get('website', ''),
+
+        db.session.add(school)
+        db.session.commit()
+
+        return jsonify(school.json), status.HTTP_200_OK
+    elif request.method == 'DELETE':
+        db.session.delete(school)
+        db.session.commit()
+        return '', status.HTTP_204_NO_CONTENT
+
+    return jsonify(school.json), status.HTTP_200_OK
 
 
 # Devel Utilities
