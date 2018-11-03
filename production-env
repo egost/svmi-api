@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+export DB_USER='root'
+export DB_PASSWORD='4PwnohFAqne2s'
+export DB_URL='upwork-svmi.cqtwi4ijanzf.us-east-2.rds.amazonaws.com:3306'
+export DB_NAME='svmi-dev'
+export SERVER_NAME='localhost'
