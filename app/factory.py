@@ -4,20 +4,16 @@ from app.extensions import db
 from app.models import Address, Industry, Company, School
                 
 fake = Faker()
-fake.seed_instance(4321)
+# fake.seed_instance(4321)
 
-def fake_entries(count=10, erase_db=False):
-    if erase_db:
-        db.empty(commit=True)
-        db.make(commit=True)
-    else:
-        fake.seed_instance(fake.random_int(0,9999))
+def fake_entries(count=10):
+    db.session.rollback()
 
     for i in range(0, count):
-        db.add(fake_company())
-        db.add(fake_school())
+        db.session.add(fake_company())
+        db.session.add(fake_school())
 
-    db.commit()
+    db.session.commit()
 
 
 def fake_address(county=False):

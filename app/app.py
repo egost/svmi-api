@@ -290,16 +290,28 @@ def school(id):
 # TODO: Create bulk creation
 
 # TODO: Remove empty or put behind password
-@app.route('/api/empty', methods=['GET'])
+@app.route('/api/empty', methods=['DELETE'])
 def empty():
     '''
     DELETES everything in the database
     '''
+    db.session.rollback()
     db.drop_all()
     db.create_all()
 
     return jsonify({'message':'Deleted everything in the database...'}), status.HTTP_205_RESET_CONTENT
 
+
+@app.route('/api/fake/<int:count>', methods=['PUT'])
+def generate_fakes(count):
+    '''
+    GENERATES fake data.
+    '''
+
+    from app.factory import fake_entries
+    fake_entries(count=count)
+
+    return jsonify({'message':'Created {} fakes.'.format(count)}), status.HTTP_201_CREATED
 
 def unpack_json(objects):
     """ Serializes a list of sqlalchemy models to be ready for jsonify() """

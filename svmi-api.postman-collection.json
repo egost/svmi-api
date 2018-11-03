@@ -376,12 +376,20 @@
 					"name": "reset-database",
 					"request": {
 						"url": "{{API_URL}}/api/empty",
-						"method": "GET",
+						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "generate-fake-data",
+					"request": {
+						"url": "{{API_URL}}/api/fake/10",
+						"method": "PUT",
+						"header": [],
+						"body": {},
 						"description": ""
 					},
 					"response": []
