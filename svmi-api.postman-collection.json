@@ -45,7 +45,7 @@
 				{
 					"name": "read-address",
 					"request": {
-						"url": "{{API_URL}}/api/address/30",
+						"url": "{{API_URL}}/api/address/5",
 						"method": "GET",
 						"header": [
 							{
@@ -65,7 +65,7 @@
 				{
 					"name": "update-address",
 					"request": {
-						"url": "{{API_URL}}/api/address/30",
+						"url": "{{API_URL}}/api/address/5",
 						"method": "PUT",
 						"header": [
 							{
@@ -85,7 +85,7 @@
 				{
 					"name": "delete-address",
 					"request": {
-						"url": "{{API_URL}}/api/address/30",
+						"url": "{{API_URL}}/api/address/5",
 						"method": "DELETE",
 						"header": [
 							{
@@ -173,7 +173,7 @@
 				{
 					"name": "delete-industry",
 					"request": {
-						"url": "{{API_URL}}/api/industry/30",
+						"url": "{{API_URL}}/api/industry/777777",
 						"method": "DELETE",
 						"header": [
 							{
@@ -230,7 +230,7 @@
 				{
 					"name": "read-company",
 					"request": {
-						"url": "{{API_URL}}/api/company/14",
+						"url": "{{API_URL}}/api/company/5",
 						"method": "GET",
 						"header": [],
 						"body": {},
@@ -241,7 +241,7 @@
 				{
 					"name": "update-company",
 					"request": {
-						"url": "{{API_URL}}/api/company/14",
+						"url": "{{API_URL}}/api/company/5",
 						"method": "PUT",
 						"header": [
 							{
@@ -261,7 +261,7 @@
 				{
 					"name": "delete-company",
 					"request": {
-						"url": "{{API_URL}}/api/company/14",
+						"url": "{{API_URL}}/api/company/5",
 						"method": "DELETE",
 						"header": [],
 						"body": {},
@@ -309,7 +309,7 @@
 				{
 					"name": "read-school",
 					"request": {
-						"url": "{{API_URL}}/api/school/19",
+						"url": "{{API_URL}}/api/school/5",
 						"method": "GET",
 						"header": [
 							{
@@ -329,7 +329,7 @@
 				{
 					"name": "update-school",
 					"request": {
-						"url": "{{API_URL}}/api/school/19",
+						"url": "{{API_URL}}/api/school/5",
 						"method": "PUT",
 						"header": [
 							{
@@ -349,7 +349,7 @@
 				{
 					"name": "delete-school",
 					"request": {
-						"url": "{{API_URL}}/api/school/19",
+						"url": "{{API_URL}}/api/school/5",
 						"method": "DELETE",
 						"header": [
 							{

@@ -47,6 +47,34 @@ class Address(db.Model):
             'county' : str(self.county),
             }
     
+    def create(json):
+        address = __class__(
+            street1=json.get('street1', ''),
+            street2=json.get('street2', ''),
+            city=json.get('city', ''),
+            state=json.get('state', ''),
+            zipcode=json.get('zipcode', ''),
+            county=json.get('county', ''),
+        )
+
+        db.session.add(address)
+        db.session.commit()
+
+        return address
+
+    def create_or_get(json):
+        if 'id' in json:
+            address = __class__.query.filter_by(id=json['id']).first()
+        else:
+            address = __class__.query.filter_by(street1=json.get('street1', ''), street2=json.get('street2', ''), city=json.get('city', '')).first()
+
+        print(address)
+
+        if address is None:
+            return __class__.create(json)
+        else:
+            return address
+            
 
 class Industry(db.Model):
     naics_code = db.Column(db.Integer, primary_key=True)
@@ -64,6 +92,28 @@ class Industry(db.Model):
             'naics_code' : int(self.naics_code),
             'description' : str(self.description),
             }
+
+    def create(json):
+        industry =  __class__(
+            naics_code=json.get('naics_code', ''),
+            description=json.get('description', ''),
+        )
+
+        db.session.add(industry)
+        db.session.commit()
+
+        return industry
+
+    def create_or_get(json):
+        if 'naics_code' in json:
+            industry = __class__.query.filter_by(naics_code=json['naics_code']).first()
+        else:
+            industry = __class__.query.filter_by(description=json['description']).first()
+
+        if industry is None:
+            __class__.create()
+        else:
+            return industry
     
 
 class Company(db.Model):
@@ -91,7 +141,35 @@ class Company(db.Model):
             'website' : str(self.website),
             }
 
+    def create(json):
+        address = Address.create_or_get(json['address']) if 'address' in json else None
+        industry = Industry.create_or_get(json['industry']) if 'industry' in json else None
+
+        company = __class__(
+            name=json.get('name', ''),
+            address=address,
+            industry=industry,
+            website=json.get('website', '')
+        )
+
+        db.session.add(company)
+        db.session.commit()
+
+        return company
+
+    def create_or_get(json):
+        if 'id' in json:
+            company = __class__.query.filter_by(id=json['id']).first()
+        else:
+            company = __class__.query.filter_by(name=json['name']).first()
+
+        if company is None:
+            return __class__.create(json)
+        else:
+            return company
+
     
+
 class School(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128))
@@ -113,3 +191,28 @@ class School(db.Model):
             'address_id' : int(self.address_id or 0) or None,
             'website' : str(self.website),
             }
+
+    def create(json):
+        address = Address.create_or_get(json['address']) if 'address' in json else None
+
+        school = __class__(
+            name=json.get('name', ''),
+            address=address,
+            website=json.get('website', '')
+        )
+
+        db.session.add(school)
+        db.session.commit()
+
+        return school
+
+    def create_or_get(json):
+        if 'id' in json:
+            school = __class__.query.filter_by(id=json['id']).first()
+        else:
+            school = __class__.query.filter_by(name=json['name']).first()
+
+        if school is None:
+            return __class__.create(json)
+        else:
+            return school

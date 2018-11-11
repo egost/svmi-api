@@ -8,8 +8,6 @@ from flask import request, url_for, jsonify, make_response
 
 from flask_sqlalchemy import SQLAlchemy
 
-# TODO: Handle nested object POST (Address or Industry)
-# TODO: Handle existing object POST Address, School and Company (Industry is taken care of)
 
 ##########
 # Models #
@@ -45,13 +43,10 @@ def main():
     app.run(host='0.0.0.0', port=port, debug=debug)
 
 
-##########
-# Routes #
-##########
+###########
+# Address #
+###########
 
-
-
-# Address
 @app.route('/api/address', methods=['GET', 'POST'])
 def addresses():
     '''
@@ -61,19 +56,7 @@ def addresses():
 
     if request.method == 'POST':
         json = request.get_json()
-
-        address = Address(
-            street1=json.get('street1', ''),
-            street2=json.get('street2', ''),
-            city=json.get('city', ''),
-            state=json.get('state', ''),
-            zipcode=json.get('zipcode', ''),
-            county=json.get('county', ''),
-        )
-
-        db.session.add(address)
-        db.session.commit()
-
+        address = Address.create(json)
         return jsonify(address.json), status.HTTP_201_CREATED
 
     addresses = Address.query.all()
@@ -93,12 +76,12 @@ def address(id):
     if request.method == 'PUT':
         json = request.get_json()
 
-        address.street1=json.get('street1', ''),
-        address.street2=json.get('street2', ''),
-        address.city=json.get('city', ''),
-        address.state=json.get('state', ''),
-        address.zipcode=json.get('zipcode', ''),
-        address.county=json.get('county', ''),
+        address.street1=json.get('street1', '')
+        address.street2=json.get('street2', '')
+        address.city=json.get('city', '')
+        address.state=json.get('state', '')
+        address.zipcode=json.get('zipcode', '')
+        address.county=json.get('county', '')
 
         db.session.add(address)
         db.session.commit()
@@ -113,7 +96,10 @@ def address(id):
 
 
 
-# Industry
+############
+# Industry #
+############
+
 @app.route('/api/industry', methods=['GET', 'POST'])
 def industries():
     '''
@@ -124,18 +110,12 @@ def industries():
     if request.method == 'POST':
         json = request.get_json()
 
-        industry = Industry.query.filter_by(naics_code=json['naics_code']).first()
-        if industry is None:
-            industry = Industry(
-                naics_code=json.get('naics_code', ''),
-                description=json.get('description', ''),
-            )
+        industry = Industry.query.filter_by(naics_code=json.get('naics_code')).first()
+        if industry is not None:
+            return {'error':'duplicate entry'}, status.HTTP_409_CONFLICT
 
-            db.session.add(industry)
-            db.session.commit()
-            return jsonify(industry.json), status.HTTP_201_CREATED
-        else:
-            return jsonify(industry.json), status.HTTP_202_ACCEPTED
+        industry = Industry.create(json)
+        return jsonify(industry.json), status.HTTP_201_CREATED
 
     industries = Industry.query.all()
     return jsonify({'industries': unpack_json(industries)}), status.HTTP_200_OK
@@ -154,7 +134,7 @@ def industry(id):
     if request.method == 'PUT':
         json = request.get_json()
 
-        industry.description=json.get('description', ''),
+        industry.description=json.get('description', '')
 
         db.session.add(industry)
         db.session.commit()
@@ -168,7 +148,10 @@ def industry(id):
     return jsonify(industry.json), status.HTTP_200_OK
 
 
-# Company
+###########
+# Company #
+###########
+
 @app.route('/api/company', methods=['GET', 'POST'])
 def companies():
     '''
@@ -178,21 +161,7 @@ def companies():
 
     if request.method == 'POST':
         json = request.get_json()
-
-        # with app.test_request_context():
-        #    address = url_for('addresses', json=json['address'])
-        #    industry = url_for('industries', json=json['industry'])
-
-        company = Company(
-            name=json.get('name', ''),
-            # address=address,
-            # industry=industry,
-            website=json.get('website', '')
-        )
-
-        db.session.add(company)
-        db.session.commit()
-
+        company = Company.create(json)
         return jsonify(company.json), status.HTTP_201_CREATED
 
     companies = Company.query.all()
@@ -212,10 +181,13 @@ def company(id):
     if request.method == 'PUT':
         json = request.get_json()
 
-        company.name=json.get('name', ''),
-        # company.address=
-        # company.industry=
-        company.website=json.get('website', ''),
+        address = Address.create_or_get(json['address']) if 'address' in json else None
+        industry = Industry.create_or_get(json['industry']) if 'industry' in json else None
+
+        company.name=json.get('name', '')
+        company.address=address
+        company.industry=industry
+        company.website=json.get('website', '')
 
         db.session.add(company)
         db.session.commit()
@@ -229,7 +201,10 @@ def company(id):
     return jsonify(company.json), status.HTTP_200_OK
 
 
-# School
+##########
+# School #
+##########
+
 @app.route('/api/school', methods=['GET', 'POST'])
 def schools():
     '''
@@ -239,20 +214,9 @@ def schools():
 
     if request.method == 'POST':
         json = request.get_json()
-
-        # with app.test_request_context():
-        #    address = url_for('addresses', json=json['address'])
-
-        school = School(
-            name=json.get('name', ''),
-            # address=address,
-            website=json.get('website', '')
-        )
-
-        db.session.add(school)
-        db.session.commit()
-
+        school = School.create(json)
         return jsonify(school.json), status.HTTP_201_CREATED
+
     schools = School.query.all()
     return jsonify({'schools': unpack_json(schools)}), status.HTTP_200_OK
 
@@ -270,9 +234,11 @@ def school(id):
     if request.method == 'PUT':
         json = request.get_json()
 
-        school.name=json.get('name', ''),
-        # school.address=
-        school.website=json.get('website', ''),
+        address = Address.create_or_get(json['address']) if 'address' in json else None
+
+        school.name=json.get('name', '')
+        school.address=address
+        school.website=json.get('website', '')
 
         db.session.add(school)
         db.session.commit()
@@ -286,9 +252,11 @@ def school(id):
     return jsonify(school.json), status.HTTP_200_OK
 
 
-# Devel Utilities
-# TODO: Create bulk creation
+###################
+# Devel Utilities #
+###################
 
+# TODO: Create bulk creation
 # TODO: Remove empty or put behind password
 @app.route('/api/empty', methods=['DELETE'])
 def empty():
