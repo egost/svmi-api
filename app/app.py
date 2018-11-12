@@ -7,6 +7,7 @@ from flask_api import status, exceptions
 from flask import request, url_for, jsonify, make_response
 
 from flask_sqlalchemy import SQLAlchemy
+from flask_httpauth import HTTPBasicAuth
 
 
 ##########
@@ -37,6 +38,19 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # adds significant overhead
 db.app = app
 db.init_app(app)
 
+auth = HTTPBasicAuth()
+
+USER_DATA = {
+    str(os.environ.get('API_USER')): str(os.environ.get('API_PASSWORD'))
+}
+
+@auth.verify_password
+def verify(username, password):
+    if not (username and password):
+        return False
+    return USER_DATA.get(username) == password
+
+
 def main():
     debug = str(os.environ.get('DEBUG', True))
     port = int(os.environ.get('PORT', 5000))
@@ -48,6 +62,7 @@ def main():
 ###########
 
 @app.route('/api/address', methods=['GET', 'POST'])
+@auth.login_required
 def addresses():
     '''
     GET: Returns all addresses.
@@ -64,6 +79,7 @@ def addresses():
 
 
 @app.route('/api/address/<int:id>', methods=['GET', 'PUT', 'DELETE'])
+@auth.login_required
 def address(id):
     '''
     GET: Returns address.
@@ -101,6 +117,7 @@ def address(id):
 ############
 
 @app.route('/api/industry', methods=['GET', 'POST'])
+@auth.login_required
 def industries():
     '''
     GET: Returns all industries.
@@ -122,6 +139,7 @@ def industries():
 
 
 @app.route('/api/industry/<int:id>', methods=['GET', 'PUT', 'DELETE'])
+@auth.login_required
 def industry(id):
     '''
     GET: Returns industry.
@@ -153,6 +171,7 @@ def industry(id):
 ###########
 
 @app.route('/api/company', methods=['GET', 'POST'])
+@auth.login_required
 def companies():
     '''
     GET: Returns all companies.
@@ -169,6 +188,7 @@ def companies():
 
 
 @app.route('/api/company/<int:id>', methods=['GET', 'PUT', 'DELETE'])
+@auth.login_required
 def company(id):
     '''
     GET: Returns company.
@@ -206,6 +226,7 @@ def company(id):
 ##########
 
 @app.route('/api/school', methods=['GET', 'POST'])
+@auth.login_required
 def schools():
     '''
     GET: Returns all schools.
@@ -222,6 +243,7 @@ def schools():
 
 
 @app.route('/api/school/<int:id>', methods=['GET', 'PUT', 'DELETE'])
+@auth.login_required
 def school(id):
     '''
     GET: Returns school.
@@ -259,6 +281,7 @@ def school(id):
 # TODO: Create bulk creation
 # TODO: Remove empty or put behind password
 @app.route('/api/empty', methods=['DELETE'])
+@auth.login_required
 def empty():
     '''
     DELETES everything in the database
@@ -271,6 +294,7 @@ def empty():
 
 
 @app.route('/api/fake/<int:count>', methods=['PUT'])
+@auth.login_required
 def generate_fakes(count):
     '''
     GENERATES fake data.
