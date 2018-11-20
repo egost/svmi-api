@@ -200,7 +200,7 @@ class School(db.Model):
         school = __class__(
             name=json.get('name', ''),
             address=address,
-            website=json.get('website', '')
+            website=json.get('website', ''),
             category=json.get('category', '')
         )
 
