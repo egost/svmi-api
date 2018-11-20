@@ -191,7 +191,7 @@ class School(db.Model):
             'name' : str(self.name),
             'address_id' : int(self.address_id or 0) or None,
             'website' : str(self.website),
-            'category' : str(self.website),
+            'category' : str(self.category),
             }
 
     def create(json):
@@ -201,7 +201,7 @@ class School(db.Model):
             name=json.get('name', ''),
             address=address,
             website=json.get('website', '')
-            category=json.get('website', '')
+            category=json.get('category', '')
         )
 
         db.session.add(school)
