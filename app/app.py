@@ -182,7 +182,7 @@ def companies():
 
     if request.method == 'POST':
         json = request.get_json()
-        company = Company.create(json)
+        company = Company.create_or_get(json)
         return jsonify(company.json), status.HTTP_201_CREATED
 
     companies = Company.query.all()
@@ -237,7 +237,7 @@ def schools():
 
     if request.method == 'POST':
         json = request.get_json()
-        school = School.create(json)
+        school = School.create_or_get(json)
         return jsonify(school.json), status.HTTP_201_CREATED
 
     schools = School.query.all()
