@@ -111,7 +111,7 @@ class Industry(db.Model):
             industry = __class__.query.filter_by(description=json['description']).first()
 
         if industry is None:
-            __class__.create()
+            __class__.create(json)
         else:
             return industry
     
