@@ -261,6 +261,7 @@ def school(id):
         school.name=json.get('name', '')
         school.address=address
         school.website=json.get('website', '')
+        school.category=json.get('category', '')
 
         db.session.add(school)
         db.session.commit()

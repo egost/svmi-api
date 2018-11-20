@@ -176,6 +176,7 @@ class School(db.Model):
     address_id = db.Column(db.Integer, db.ForeignKey('address.id'))
     address = db.relationship('Address')
     website = db.Column(db.String(256))
+    category = db.Column(db.String(256))
     time_created = time_created()
     time_updated = time_updated()
     
@@ -190,6 +191,7 @@ class School(db.Model):
             'name' : str(self.name),
             'address_id' : int(self.address_id or 0) or None,
             'website' : str(self.website),
+            'category' : str(self.website),
             }
 
     def create(json):
@@ -199,6 +201,7 @@ class School(db.Model):
             name=json.get('name', ''),
             address=address,
             website=json.get('website', '')
+            category=json.get('website', '')
         )
 
         db.session.add(school)
