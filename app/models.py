@@ -95,7 +95,7 @@ class Industry(db.Model):
 
     def create(json):
         industry =  __class__(
-            naics_code=json.get('naics_code', ''),
+            naics_code=json.get('naics_code', 0),
             description=json.get('description', ''),
         )
 
