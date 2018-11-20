@@ -94,8 +94,12 @@ class Industry(db.Model):
             }
 
     def create(json):
+        if 'naics_code' in json:
+            if json['naics_code'] == '':
+                json['naics_code'] = None
+
         industry =  __class__(
-            naics_code=json.get('naics_code', 0),
+            naics_code=json.get('naics_code'),
             description=json.get('description', ''),
         )
 
@@ -107,8 +111,8 @@ class Industry(db.Model):
     def create_or_get(json):
         if 'naics_code' in json:
             industry = __class__.query.filter_by(naics_code=json['naics_code']).first()
-        else:
-            industry = __class__.query.filter_by(description=json['description']).first()
+        # else:
+        #    industry = __class__.query.filter_by(description=json['description']).first()
 
         if industry is None:
             __class__.create(json)
