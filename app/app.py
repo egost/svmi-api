@@ -4,6 +4,7 @@ import requests
 
 from flask_api import FlaskAPI
 from flask_api import status, exceptions
+from flask_cors import CORS
 from flask import request, url_for, jsonify, make_response
 
 from flask_sqlalchemy import SQLAlchemy
@@ -23,6 +24,8 @@ from app.models import Address, School, Industry, Company
 ############
 
 app = FlaskAPI(__name__)
+CORS(app)
+
 # TODO: Setup SERVER_NAME appropiately
 # app.config['SERVER_NAME'] = str(os.environ.get('SERVER_NAME', 'http://localhost'))
 
