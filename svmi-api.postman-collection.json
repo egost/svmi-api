@@ -16,7 +16,30 @@
 					"request": {
 						"url": "{{API_URL}}/api/address",
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "total-addresses",
+					"request": {
+						"url": "{{API_URL}}/api/address",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
+								"description": ""
+							}
+						],
 						"body": {},
 						"description": ""
 					},
@@ -31,6 +54,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
 								"description": ""
 							}
 						],
@@ -52,6 +80,11 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
+								"description": ""
 							}
 						],
 						"body": {
@@ -72,6 +105,11 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
+								"description": ""
 							}
 						],
 						"body": {
@@ -91,6 +129,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
 								"description": ""
 							}
 						],
@@ -113,7 +156,30 @@
 					"request": {
 						"url": "{{API_URL}}/api/industry",
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "total-industries",
+					"request": {
+						"url": "{{API_URL}}/api/industry",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
+								"description": ""
+							}
+						],
 						"body": {},
 						"description": ""
 					},
@@ -128,6 +194,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
 								"description": ""
 							}
 						],
@@ -144,7 +215,13 @@
 					"request": {
 						"url": "{{API_URL}}/api/industry/777777",
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
+								"description": ""
+							}
+						],
 						"body": {},
 						"description": ""
 					},
@@ -159,6 +236,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
 								"description": ""
 							}
 						],
@@ -179,6 +261,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
 								"description": ""
 							}
 						],
@@ -201,7 +288,30 @@
 					"request": {
 						"url": "{{API_URL}}/api/company",
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "total-companies",
+					"request": {
+						"url": "{{API_URL}}/api/company",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
+								"description": ""
+							}
+						],
 						"body": {},
 						"description": ""
 					},
@@ -216,6 +326,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
 								"description": ""
 							}
 						],
@@ -232,7 +347,13 @@
 					"request": {
 						"url": "{{API_URL}}/api/company/5",
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
+								"description": ""
+							}
+						],
 						"body": {},
 						"description": ""
 					},
@@ -247,6 +368,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
 								"description": ""
 							}
 						],
@@ -263,7 +389,13 @@
 					"request": {
 						"url": "{{API_URL}}/api/company/5",
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
+								"description": ""
+							}
+						],
 						"body": {},
 						"description": ""
 					},
@@ -280,7 +412,30 @@
 					"request": {
 						"url": "{{API_URL}}/api/school",
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "total-schools",
+					"request": {
+						"url": "{{API_URL}}/api/school",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
+								"description": ""
+							}
+						],
 						"body": {},
 						"description": ""
 					},
@@ -295,6 +450,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
 								"description": ""
 							}
 						],
@@ -316,6 +476,11 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
+								"description": ""
 							}
 						],
 						"body": {
@@ -336,6 +501,11 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
+								"description": ""
 							}
 						],
 						"body": {
@@ -355,6 +525,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
 								"description": ""
 							}
 						],
@@ -377,7 +552,13 @@
 					"request": {
 						"url": "{{API_URL}}/api/empty",
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
+								"description": ""
+							}
+						],
 						"body": {},
 						"description": ""
 					},
@@ -388,7 +569,13 @@
 					"request": {
 						"url": "{{API_URL}}/api/fake/10",
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic YWRtaW46bXktc2VjcmV0LXB3",
+								"description": ""
+							}
+						],
 						"body": {},
 						"description": ""
 					},
