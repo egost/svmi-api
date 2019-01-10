@@ -65,6 +65,12 @@ def main():
 ###########
 # Address #
 ###########
+@app.route('/api/address/total', methods=['GET'])
+@auth.login_required
+def total_addresses():
+    count = db.session.query(Address.id).count()
+    return jsonify(count), status.HTTP_200_OK
+
 
 @app.route('/api/address', methods=['GET', 'POST'])
 @auth.login_required
@@ -120,6 +126,11 @@ def address(id):
 ############
 # Industry #
 ############
+@app.route('/api/industry/total', methods=['GET'])
+@auth.login_required
+def total_industries():
+    count = db.session.query(Industry.naics_code).count()
+    return jsonify(count), status.HTTP_200_OK
 
 @app.route('/api/industry', methods=['GET', 'POST'])
 @auth.login_required
@@ -174,6 +185,11 @@ def industry(id):
 ###########
 # Company #
 ###########
+@app.route('/api/company/total', methods=['GET'])
+@auth.login_required
+def total_companies():
+    count = db.session.query(Company.id).count()
+    return jsonify(count), status.HTTP_200_OK
 
 @app.route('/api/company', methods=['GET', 'POST'])
 @auth.login_required
@@ -229,6 +245,12 @@ def company(id):
 ##########
 # School #
 ##########
+@app.route('/api/school/total', methods=['GET'])
+@auth.login_required
+def total_school():
+    count = db.session.query(School.id).count()
+    return jsonify(count), status.HTTP_200_OK
+
 
 @app.route('/api/school', methods=['GET', 'POST'])
 @auth.login_required
